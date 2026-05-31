@@ -40,7 +40,7 @@ type MenuItem = {
 };
  
 const COFFEE_LATTES: MenuItem[] = [
-  { category: 'Coffee & Latte', title: 'Pumpkin Spice Latte', description: 'Velvety espresso with pumpkin spice and steamed milk.', image: 'https://hungryfoodie.com/wp-content/uploads/2021/09/Pumpkin-Spice-Latte-1-2.jpg', icon: Coffee, ingredients: 'Espresso, pumpkin spice, whole milk', prep: '3–5 min', price: 4.80 },
+  { category: 'Coffee & Latte', title: 'Pumpkin Spice Latte', description: 'Velvety espresso with pumpkin spice and steamed milk.', image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735', icon: Coffee, ingredients: 'Espresso, pumpkin spice, whole milk', prep: '3–5 min', price: 4.80 },
   { category: 'Coffee & Latte', title: 'Maple Cinnamon Latte', description: 'Espresso with warm maple syrup and a dusting of cinnamon.', image: 'https://images.unsplash.com/photo-1695459003559-a84af05f043e', icon: Coffee, ingredients: 'Espresso, maple syrup, cinnamon, oat milk', prep: '3–5 min', price: 4.80 },
   { category: 'Coffee & Latte', title: 'Hazelnut Latte', description: 'Rich espresso with toasted hazelnut syrup and silky steamed milk.', image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93', icon: Coffee, ingredients: 'Espresso, hazelnut syrup, whole milk', prep: '3–5 min', price: 4.60 },
   { category: 'Coffee & Latte', title: 'Chai Latte', description: 'Spiced chai brewed with black tea, honey and steamed milk.', image: 'https://images.unsplash.com/photo-1519532059956-a63a37af5deb', icon: Coffee, ingredients: 'Black tea, cardamom, ginger, honey, milk', prep: '5–8 min', price: 4.20 },
@@ -80,10 +80,10 @@ const COZY_SNACKS: MenuItem[] = [
 const ALL_MENU_ITEMS: MenuItem[] = [...COFFEE_LATTES, ...COLD_DRINKS, ...PASTRIES, ...COZY_SNACKS];
  
 const MENU_CATEGORIES = [
-  { key: 'Coffee & Latte', label: 'Coffee & Latte', items: COFFEE_LATTES },
-  { key: 'Cold Drinks', label: 'Cold Drinks', items: COLD_DRINKS },
-  { key: 'Pastries', label: 'Pastries', items: PASTRIES },
-  { key: 'Cozy Snack Time', label: 'Cozy Snack Time', items: COZY_SNACKS },
+  { key: 'Coffee & Latte', label: 'Coffee & Latte', emoji: '', items: COFFEE_LATTES },
+  { key: 'Cold Drinks', label: 'Cold Drinks', emoji: '', items: COLD_DRINKS },
+  { key: 'Pastries', label: 'Pastries', emoji: '', items: PASTRIES },
+  { key: 'Cozy Snack Time', label: 'Cozy Snack Time', emoji: '', items: COZY_SNACKS },
 ];
  
 const BEST_SELLER_TITLES = [
