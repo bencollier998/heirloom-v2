@@ -479,7 +479,7 @@ const ScrollRow = ({ items, title, subtitle }: { items: MenuItem[]; title: strin
     <div>
       <div className="flex items-end justify-between mb-8 px-6 md:px-12 max-w-7xl mx-auto">
         <div>
-          <h3 className="text-3xl md:text-4xl italic font-serif font-black text-brand-brown">{title}</h3>
+          <h3 className="text-5xl md:text-6xl italic font-serif font-black text-brand-brown">{title}</h3>
           <p className="text-brand-brown/60 text-sm mt-1">{subtitle}</p>
         </div>
         <div className="flex gap-2">
