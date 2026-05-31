@@ -687,9 +687,9 @@ const Navbar = ({ onOrderOnline }: { onOrderOnline: () => void }) => {
   );
 };
 
-const Footer = ({ onShowShop, onShowCareers, onShowPress, onShowSustainability, onShowPrivacy }: {
+const Footer = ({ onShowShop, onShowCareers, onShowPress, onShowPrivacy }: {
   onShowShop: () => void; onShowCareers: () => void; onShowPress: () => void;
-  onShowSustainability: () => void; onShowPrivacy: () => void;
+  onShowPrivacy: () => void;
 }) => (
   <footer className="bg-[#1a0f0a] text-white pt-20 pb-16 px-6 md:px-12">
     <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
@@ -917,7 +917,6 @@ export default function App() {
         onShowShop={() => setShowShop(true)}
         onShowCareers={() => setShowCareers(true)}
         onShowPress={() => setShowPress(true)}
-        onShowSustainability={() => setShowSustainability(true)}
         onShowPrivacy={() => setShowPrivacy(true)}
       />
     </div>
