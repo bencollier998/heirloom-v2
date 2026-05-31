@@ -508,11 +508,20 @@ export default function App() {
   const [showOrder, setShowOrder] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('Coffee & Latte');
- 
+  const [activeCategory, setActiveCategory] = useState('View All');
+
   const handleSubscribe = () => { if (email.trim()) { setSubscribed(true); setEmail(''); } };
- 
-  const activeCategoryItems = MENU_CATEGORIES.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
+
+  const MENU_TABS = [
+    { key: 'View All', label: 'View All', emoji: '🍂' },
+    { key: 'Best Sellers', label: 'Best Sellers', emoji: '⭐' },
+    ...MENU_CATEGORIES,
+  ];
+
+  const activeCategoryItems =
+    activeCategory === 'Best Sellers'
+      ? BEST_SELLERS
+      : MENU_CATEGORIES.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
  
   return (
     <div id="top" className="bg-brand-cream min-h-screen overflow-x-hidden">
@@ -537,44 +546,48 @@ export default function App() {
           <motion.div {...motionConfig}>
             <div className="flex items-center gap-2 mb-4"><Leaf size={14} className="text-brand-orange" /><span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-orange">Seasonal Menu</span></div>
             <h2 className="text-5xl md:text-6xl italic font-serif font-black text-brand-brown mb-8">Our Menu</h2>
-            {/* Category tabs */}
+            {/* Menu tabs */}
             <div className="flex flex-wrap gap-3">
-              {MENU_CATEGORIES.map((cat) => (
+              {MENU_TABS.map((tab) => (
                 <button
-                  key={cat.key}
-                  onClick={() => setActiveCategory(cat.key)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${activeCategory === cat.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
+                  key={tab.key}
+                  onClick={() => setActiveCategory(tab.key)}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${activeCategory === tab.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
                 >
-                  <span>{cat.emoji}</span> {cat.label}
+                  <span>{tab.emoji}</span> {tab.label}
                 </button>
               ))}
             </div>
           </motion.div>
         </div>
  
-        {/* Active category scroll */}
-        <div className="pb-4">
-          <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide px-6 md:px-12" style={{ scrollSnapType: 'x mandatory' }}>
-            {activeCategoryItems.map((item) => (
-              <div key={item.title} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
-                <Card {...item} />
-              </div>
-            ))}
+        {/* Active menu tab */}
+        {activeCategory === 'View All' ? (
+          <div className="space-y-16 pb-4">
+            <ScrollRow
+              items={ALL_MENU_ITEMS}
+              title="View All Menu"
+              subtitle="Browse every drink, bake and cosy bite on the menu."
+            />
+            <ScrollRow
+              items={BEST_SELLERS}
+              title="Best Sellers"
+              subtitle="Our most loved drinks, bakes and bites — ordered again and again."
+            />
           </div>
-        </div>
+        ) : (
+          <div className="pb-4">
+            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide px-6 md:px-12" style={{ scrollSnapType: 'x mandatory' }}>
+              {activeCategoryItems.map((item) => (
+                <div key={item.title} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
+                  <Card {...item} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
- 
-      {/* BEST SELLERS */}
-      <section className="py-16 bg-[#fdf6ef]">
-        <motion.div {...motionConfig}>
-          <ScrollRow
-            items={BEST_SELLERS}
-            title="Best Sellers"
-            subtitle="Our most loved drinks, bakes and bites — ordered again and again."
-          />
-        </motion.div>
-      </section>
- 
+
       {/* OUR STORY + SUSTAINABILITY */}
       <section id="story" className="py-24 bg-[#1a0f0a] text-white">
         <div className="px-6 md:px-12 max-w-7xl mx-auto">
@@ -664,4 +677,3 @@ export default function App() {
       />
     </div>
   );
-}
