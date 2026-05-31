@@ -80,10 +80,10 @@ const COZY_SNACKS: MenuItem[] = [
 const ALL_MENU_ITEMS: MenuItem[] = [...COFFEE_LATTES, ...COLD_DRINKS, ...PASTRIES, ...COZY_SNACKS];
  
 const MENU_CATEGORIES = [
-  { key: 'Coffee & Latte', label: 'Coffee & Latte', emoji: '☕', items: COFFEE_LATTES },
-  { key: 'Cold Drinks', label: 'Cold Drinks', emoji: '🧊', items: COLD_DRINKS },
-  { key: 'Pastries', label: 'Pastries', emoji: '🥐', items: PASTRIES },
-  { key: 'Cozy Snack Time', label: 'Cozy Snack Time', emoji: '🍂', items: COZY_SNACKS },
+  { key: 'Coffee & Latte', label: 'Coffee & Latte', items: COFFEE_LATTES },
+  { key: 'Cold Drinks', label: 'Cold Drinks', items: COLD_DRINKS },
+  { key: 'Pastries', label: 'Pastries', items: PASTRIES },
+  { key: 'Cozy Snack Time', label: 'Cozy Snack Time', items: COZY_SNACKS },
 ];
  
 const BEST_SELLER_TITLES = [
