@@ -99,7 +99,6 @@ const BEST_SELLERS: MenuItem[] = BEST_SELLER_TITLES
 
 const MENU_TABS = [
   ...MENU_CATEGORIES,
-  { key: 'Best Sellers', label: 'Best Sellers', emoji: '', items: BEST_SELLERS },
   { key: 'All Menu', label: 'All Menu', emoji: '', items: ALL_MENU_ITEMS },
 ];
  
@@ -575,12 +574,6 @@ export default function App() {
               </div>
             ))}
           </div>
-        ) : activeCategory === 'Best Sellers' ? (
-          <ScrollRow
-            items={BEST_SELLERS}
-            title="Best Sellers"
-            subtitle="Our most loved drinks, bakes and bites — ordered again and again."
-          />
         ) : (
           <>
             {/* Active category scroll */}
