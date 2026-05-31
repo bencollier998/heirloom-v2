@@ -96,6 +96,12 @@ const BEST_SELLER_TITLES = [
 const BEST_SELLERS: MenuItem[] = BEST_SELLER_TITLES
   .map(t => ALL_MENU_ITEMS.find(i => i.title === t))
   .filter((i): i is MenuItem => !!i);
+
+const MENU_TABS = [
+  ...MENU_CATEGORIES,
+  { key: 'Best Sellers', label: 'Best Sellers', emoji: '', items: BEST_SELLERS },
+  { key: 'All Menu', label: 'All Menu', emoji: '', items: ALL_MENU_ITEMS },
+];
  
 const SHOP_ITEMS = [
   { name: 'Heirloom Signature Blend', desc: '250g whole bean coffee, sourced from our partner farms in Colombia and Ethiopia.', price: 14.00, emoji: '☕' },
@@ -509,11 +515,10 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Coffee & Latte');
-  const [menuViewMode, setMenuViewMode] = useState<'categories' | 'all' | 'bestSellers'>('categories');
  
   const handleSubscribe = () => { if (email.trim()) { setSubscribed(true); setEmail(''); } };
  
-  const activeCategoryItems = MENU_CATEGORIES.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
+  const activeCategoryItems = MENU_TABS.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
  
   return (
     <div id="top" className="bg-brand-cream min-h-screen overflow-x-hidden">
@@ -540,43 +545,43 @@ export default function App() {
             <h2 className="text-5xl md:text-6xl italic font-serif font-black text-brand-brown mb-8">Our Menu</h2>
             {/* Category tabs */}
             <div className="flex flex-wrap gap-3">
-              {MENU_CATEGORIES.map((cat) => (
+              {MENU_TABS.map((cat) => (
                 <button
                   key={cat.key}
-                  onClick={() => { setActiveCategory(cat.key); setMenuViewMode('categories'); }}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'categories' && activeCategory === cat.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
+                  onClick={() => setActiveCategory(cat.key)}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${activeCategory === cat.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
                 >
-                  <span>{cat.emoji}</span> {cat.label}
+                  {cat.emoji && <span>{cat.emoji}</span>} {cat.label}
                 </button>
               ))}
             </div>
-
-            {menuViewMode !== 'categories' && (
-              <div className="flex flex-wrap gap-3 mt-8">
-                <button
-                  onClick={() => setMenuViewMode('all')}
-                  className={`px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'all' ? 'bg-brand-orange text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
-                >
-                  View All
-                </button>
-                <button
-                  onClick={() => setMenuViewMode('bestSellers')}
-                  className={`px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'bestSellers' ? 'bg-brand-orange text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
-                >
-                  Best Sellers
-                </button>
-                <button
-                  onClick={() => setMenuViewMode('categories')}
-                  className="px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all bg-transparent text-brand-brown/60 hover:text-brand-brown border border-brand-brown/10"
-                >
-                  Back to Categories
-                </button>
-              </div>
-            )}
           </motion.div>
         </div>
 
-        {menuViewMode === 'categories' ? (
+        {activeCategory === 'All Menu' ? (
+          <div className="space-y-16">
+            <ScrollRow
+              items={BEST_SELLERS}
+              title="Best Sellers"
+              subtitle="Our most loved drinks, bakes and bites — ordered again and again."
+            />
+            {MENU_CATEGORIES.map((cat) => (
+              <div key={cat.key}>
+                <ScrollRow
+                  items={cat.items}
+                  title={cat.label}
+                  subtitle={`Browse every item in our ${cat.label.toLowerCase()} selection.`}
+                />
+              </div>
+            ))}
+          </div>
+        ) : activeCategory === 'Best Sellers' ? (
+          <ScrollRow
+            items={BEST_SELLERS}
+            title="Best Sellers"
+            subtitle="Our most loved drinks, bakes and bites — ordered again and again."
+          />
+        ) : (
           <>
             {/* Active category scroll */}
             <div className="pb-4">
@@ -589,37 +594,14 @@ export default function App() {
               </div>
             </div>
 
-            <div className="flex justify-center mt-8 px-6 md:px-12">
-              <button
-                onClick={() => setMenuViewMode('all')}
-                className="bg-brand-brown text-white px-6 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold hover:bg-black transition shadow-sm"
-              >
-                View All
-              </button>
+            <div className="mt-16">
+              <ScrollRow
+                items={BEST_SELLERS}
+                title="Best Sellers"
+                subtitle="Our most loved drinks, bakes and bites — ordered again and again."
+              />
             </div>
           </>
-        ) : menuViewMode === 'all' ? (
-          <div className="space-y-16">
-            {MENU_CATEGORIES.map((cat) => (
-              <ScrollRow
-                key={cat.key}
-                items={cat.items}
-                title={cat.label}
-                subtitle={`Browse every item in our ${cat.label.toLowerCase()} selection.`}
-              />
-            ))}
-            <ScrollRow
-              items={BEST_SELLERS}
-              title="Best Sellers"
-              subtitle="Our most loved drinks, bakes and bites — ordered again and again."
-            />
-          </div>
-        ) : (
-          <ScrollRow
-            items={BEST_SELLERS}
-            title="Best Sellers"
-            subtitle="Our most loved drinks, bakes and bites — ordered again and again."
-          />
         )}
       </section>
  
