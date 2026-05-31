@@ -129,11 +129,26 @@ type CardProps = {
 const Card = ({ title, category, description, image, icon: Icon, ingredients, prep }: CardProps) => {
   const [flipped, setFlipped] = useState(false);
   return (
-    <div className="flex-shrink-0 w-64 md:w-72" style={{ height: '480px', perspective: '1200px' }}>
-      <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d', transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)', transition: 'transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1)' }}>
+    <div className="flex-shrink-0 w-64 md:w-72 overflow-hidden" style={{ height: '480px', perspective: '1200px' }}>
+      <div
+        className="relative w-full h-full"
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          transition: 'transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1)',
+          willChange: 'transform',
+          transformOrigin: 'center center',
+        }}
+      >
         <div className="absolute inset-0 bg-brand-cream-light rounded-[2rem] overflow-hidden shadow-sm border border-brand-brown/5 flex flex-col" style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
           <div className="relative flex-shrink-0 overflow-hidden" style={{ height: '200px' }}>
-            <img src={image} alt={title} loading="lazy" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+            <img
+              src={image}
+              alt={title}
+              loading="lazy"
+              className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+              style={{ objectPosition: title === 'Pumpkin Spice Latte' ? 'center 70%' : 'center' }}
+            />
           </div>
           <div className="p-6 flex flex-col flex-grow overflow-hidden">
             <div className="mb-2 flex items-center gap-2"><Icon size={14} className="text-brand-orange" /><span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-orange">{category}</span></div>
