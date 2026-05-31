@@ -711,7 +711,6 @@ const Footer = ({ onShowShop, onShowCareers, onShowPress, onShowPrivacy }: {
           <li><button onClick={onShowCareers} className="hover:text-brand-orange transition">Careers</button></li>
           <li><button onClick={onShowPrivacy} className="hover:text-brand-orange transition">Privacy</button></li>
           <li><button onClick={onShowPress} className="hover:text-brand-orange transition">Press</button></li>
-          <li><button onClick={onShowSustainability} className="hover:text-brand-orange transition">Sustainability</button></li>
         </ul>
       </div>
     </div>
