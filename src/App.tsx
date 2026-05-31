@@ -508,20 +508,12 @@ export default function App() {
   const [showOrder, setShowOrder] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('View All');
-
+  const [activeCategory, setActiveCategory] = useState('Coffee & Latte');
+  const [menuViewMode, setMenuViewMode] = useState<'categories' | 'all' | 'bestSellers'>('categories');
+ 
   const handleSubscribe = () => { if (email.trim()) { setSubscribed(true); setEmail(''); } };
-
-  const MENU_TABS = [
-    { key: 'View All', label: 'View All', emoji: '🍂' },
-    { key: 'Best Sellers', label: 'Best Sellers', emoji: '⭐' },
-    ...MENU_CATEGORIES,
-  ];
-
-  const activeCategoryItems =
-    activeCategory === 'Best Sellers'
-      ? BEST_SELLERS
-      : MENU_CATEGORIES.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
+ 
+  const activeCategoryItems = MENU_CATEGORIES.find(c => c.key === activeCategory)?.items ?? COFFEE_LATTES;
  
   return (
     <div id="top" className="bg-brand-cream min-h-screen overflow-x-hidden">
@@ -546,29 +538,76 @@ export default function App() {
           <motion.div {...motionConfig}>
             <div className="flex items-center gap-2 mb-4"><Leaf size={14} className="text-brand-orange" /><span className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-orange">Seasonal Menu</span></div>
             <h2 className="text-5xl md:text-6xl italic font-serif font-black text-brand-brown mb-8">Our Menu</h2>
-            {/* Menu tabs */}
+            {/* Category tabs */}
             <div className="flex flex-wrap gap-3">
-              {MENU_TABS.map((tab) => (
+              {MENU_CATEGORIES.map((cat) => (
                 <button
-                  key={tab.key}
-                  onClick={() => setActiveCategory(tab.key)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${activeCategory === tab.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
+                  key={cat.key}
+                  onClick={() => { setActiveCategory(cat.key); setMenuViewMode('categories'); }}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'categories' && activeCategory === cat.key ? 'bg-brand-brown text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
                 >
-                  <span>{tab.emoji}</span> {tab.label}
+                  <span>{cat.emoji}</span> {cat.label}
                 </button>
               ))}
             </div>
+
+            {menuViewMode !== 'categories' && (
+              <div className="flex flex-wrap gap-3 mt-8">
+                <button
+                  onClick={() => setMenuViewMode('all')}
+                  className={`px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'all' ? 'bg-brand-orange text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
+                >
+                  View All
+                </button>
+                <button
+                  onClick={() => setMenuViewMode('bestSellers')}
+                  className={`px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all ${menuViewMode === 'bestSellers' ? 'bg-brand-orange text-white shadow-lg' : 'bg-brand-cream-light text-brand-brown/70 hover:bg-brand-brown/10 border border-brand-brown/10'}`}
+                >
+                  Best Sellers
+                </button>
+                <button
+                  onClick={() => setMenuViewMode('categories')}
+                  className="px-5 py-3 rounded-full text-[11px] uppercase tracking-widest font-bold transition-all bg-transparent text-brand-brown/60 hover:text-brand-brown border border-brand-brown/10"
+                >
+                  Back to Categories
+                </button>
+              </div>
+            )}
           </motion.div>
         </div>
- 
-        {/* Active menu tab */}
-        {activeCategory === 'View All' ? (
-          <div className="space-y-16 pb-4">
-            <ScrollRow
-              items={ALL_MENU_ITEMS}
-              title="View All Menu"
-              subtitle="Browse every drink, bake and cosy bite on the menu."
-            />
+
+        {menuViewMode === 'categories' ? (
+          <>
+            {/* Active category scroll */}
+            <div className="pb-4">
+              <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide px-6 md:px-12" style={{ scrollSnapType: 'x mandatory' }}>
+                {activeCategoryItems.map((item) => (
+                  <div key={item.title} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
+                    <Card {...item} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-center mt-8 px-6 md:px-12">
+              <button
+                onClick={() => setMenuViewMode('all')}
+                className="bg-brand-brown text-white px-6 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold hover:bg-black transition shadow-sm"
+              >
+                View All
+              </button>
+            </div>
+          </>
+        ) : menuViewMode === 'all' ? (
+          <div className="space-y-16">
+            {MENU_CATEGORIES.map((cat) => (
+              <ScrollRow
+                key={cat.key}
+                items={cat.items}
+                title={cat.label}
+                subtitle={`Browse every item in our ${cat.label.toLowerCase()} selection.`}
+              />
+            ))}
             <ScrollRow
               items={BEST_SELLERS}
               title="Best Sellers"
@@ -576,18 +615,14 @@ export default function App() {
             />
           </div>
         ) : (
-          <div className="pb-4">
-            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide px-6 md:px-12" style={{ scrollSnapType: 'x mandatory' }}>
-              {activeCategoryItems.map((item) => (
-                <div key={item.title} style={{ scrollSnapAlign: 'start', flexShrink: 0 }}>
-                  <Card {...item} />
-                </div>
-              ))}
-            </div>
-          </div>
+          <ScrollRow
+            items={BEST_SELLERS}
+            title="Best Sellers"
+            subtitle="Our most loved drinks, bakes and bites — ordered again and again."
+          />
         )}
       </section>
-
+ 
       {/* OUR STORY + SUSTAINABILITY */}
       <section id="story" className="py-24 bg-[#1a0f0a] text-white">
         <div className="px-6 md:px-12 max-w-7xl mx-auto">
