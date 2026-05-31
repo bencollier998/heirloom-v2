@@ -725,7 +725,6 @@ export default function App() {
   const [showShop, setShowShop] = useState(false);
   const [showCareers, setShowCareers] = useState(false);
   const [showPress, setShowPress] = useState(false);
-  const [showSustainability, setShowSustainability] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -901,7 +900,6 @@ export default function App() {
       <AnimatePresence>{showShop && <ShopModal onClose={() => setShowShop(false)} />}</AnimatePresence>
       <AnimatePresence>{showCareers && <CareersModal onClose={() => setShowCareers(false)} />}</AnimatePresence>
       <AnimatePresence>{showPress && <PressModal onClose={() => setShowPress(false)} />}</AnimatePresence>
-      <AnimatePresence>{showSustainability && <SustainabilityModal onClose={() => setShowSustainability(false)} />}</AnimatePresence>
       <AnimatePresence>{showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}</AnimatePresence>
       <AnimatePresence>{showOrder && <OrderModal onClose={() => setShowOrder(false)} />}</AnimatePresence>
 
